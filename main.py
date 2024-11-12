@@ -1,5 +1,4 @@
 from pygame import *
-from Car import Car
 
 init()
 
