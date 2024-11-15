@@ -1,38 +1,30 @@
 from pygame import *
 
+# colors
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+green = (0, 127, 0)
+blue = (0, 0, 255)
+yellow = (255, 255, 0)
+cyan = (0, 255, 255)
+pink = (255, 0, 255)
+
+
+# window
 init()
-
 screen = display.set_mode(size=(960, 540), flags=RESIZABLE)
-
+display.set_caption("")
 Font = font.SysFont("monospace", 15)
-
-controllable_sprites = sprite.Group()
-
-player_car = Car()
-player_car.rect.x = 300
-player_car.rect.y = 200
-
-controllable_sprites.add(player_car)
-
 running = True
 clock = time.Clock()
-screen.fill((128, 128, 128))
+screen.fill(green)
 
+cars = sprite.Group()
 while running:
     for Event in event.get():
         if Event.type == QUIT:
             running = False
-        elif Event.type == KEYDOWN:
-            if Event.key == K_z:
-                player_car.accelerate(2)
-            elif Event.key == K_s:
-                player_car.accelerate(-1)
-    label = Font.render(str(player_car.current_velocity),
-                        1, (255, 255, 0), (0, 0, 0))
-    screen.blit(label, (100, 100))
-
-    controllable_sprites.update()
-    controllable_sprites.draw(screen)
     display.flip()
     clock.tick(60)
 
