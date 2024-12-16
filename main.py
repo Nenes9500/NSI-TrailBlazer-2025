@@ -1,6 +1,6 @@
-from game import Game
-import pygame
 from pygame import *
+import pygame
+from game import Game
 
 # colors
 black = (0, 0, 0)
@@ -13,20 +13,20 @@ cyan = (0, 255, 255)
 pink = (255, 0, 255)
 
 
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 600
-WINDOW_SURFACE = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE
+WINDOW_WIDTH = 1920
+WINDOW_HEIGHT = 1080
+WINDOW_SURFACE = pygame.HWSURFACE | pygame.NOFRAME | pygame.RESIZABLE
 
 
 pygame.init()
-pygame.mixer.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_SURFACE)
 pygame.display.set_caption("TrailBlazer")
 
-
-road_image = road_image = pygame.image.load('img/racetrack.png')
-background = road_image
+background = pygame.image.load('img/racetrack.png')
 car_img = pygame.image.load('img/voiture.png').convert_alpha()
+car_img_size = car_img.get_size()
+car_img = pygame.transform.scale(
+    car_img, (car_img_size[0]//4, car_img_size[1]//4))
 
 
 car = Game(car_img, WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
@@ -42,12 +42,6 @@ while not done:
     for event in pygame.event.get():
         if (event.type == pygame.QUIT):
             done = True
-        elif (event.type == pygame.VIDEORESIZE):
-            WINDOW_WIDTH = event.w
-            WINDOW_HEIGHT = event.h
-            window = pygame.display.set_mode(
-                (WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_SURFACE)
-            background = road_image
         elif event.type == pygame.KEYDOWN:
             car.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
@@ -68,7 +62,7 @@ while not done:
 
     car_sprites.update()
 
-    window.blit(background, (0, 0))
+    window.blit(background, (-car.player.position.x, - car.player.position.y))
     car_sprites.draw(window)
     pygame.display.flip()
 
