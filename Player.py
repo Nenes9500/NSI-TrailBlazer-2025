@@ -34,11 +34,14 @@ class CarSprite(pygame.sprite.Sprite):
 
     def accelerate(self, amount):
         if self.speed >= 0:
-            self.speed += amount
+            self.speed = round(self.speed+amount, 2)
 
     def brake(self, amount):
         if self.speed <= 0:
-            self.speed -= amount
+            print("amount", amount)
+            print("speed", self.speed)
+            print("calcul", self.speed-amount)
+            self.speed = round(self.speed - amount, 2)
 
     def deccaceleration(self, amount):
         if self.speed <= 0:
