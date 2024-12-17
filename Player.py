@@ -20,8 +20,8 @@ class CarSprite(pygame.sprite.Sprite):
         self.speed = 0
         self.velocity = pygame.math.Vector2(0, 0)
         self.position = pygame.math.Vector2(x, y)
-        self.maxspeedfront = 30
-        self.maxspeedback = -7
+        self.maxspeedfront = 29.9
+        self.maxspeedback = -6.9
 
     def turn(self, angle_degrees):
         if self.speed != 0:
