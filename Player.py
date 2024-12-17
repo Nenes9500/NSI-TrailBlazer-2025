@@ -21,8 +21,8 @@ class CarSprite(pygame.sprite.Sprite):
         self.velocity = pygame.math.Vector2(0, 0)
         self.position = pygame.math.Vector2(x, y)
 
-    def turn(self, angle_degrees):
-        if self.speed != 0:
+    def turn(self, angle_degrees, force=False):
+        if self.speed != 0 or force:
             self.heading += math.radians(angle_degrees)
             image_index = int(
                 self.heading / self.min_angle) % len(self.rot_img)
@@ -39,12 +39,6 @@ class CarSprite(pygame.sprite.Sprite):
     def brake(self, amount):
         if self.speed <= 0:
             self.speed -= amount
-
-    def deccaceleration(self, amount):
-        if self.speed <= 0:
-            self.speed *= amount
-        if self.speed >= 0:
-            self.speed *= amount
 
     def update(self):
         self.velocity.from_polar((self.speed, math.degrees(self.heading)))
