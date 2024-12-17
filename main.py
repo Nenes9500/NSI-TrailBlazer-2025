@@ -41,21 +41,26 @@ while not done:
             car.pressed[event.key] = False
 
     if car.pressed.get(pygame.K_DOWN):
-        car.player.brake(0.1)
+        car.player.accelerate(-0.1)
     else:
         if car.player.speed < 0:
-            car.player.brake(-0.05)
+            car.player.brake(-0.1)
     if car.pressed.get(pygame.K_UP):
         car.player.accelerate(0.1)
     else:
         if car.player.speed > 0:
-            car.player.accelerate(-0.05)
+            car.player.brake(0.1)
+    if car.pressed.get(pygame.K_SPACE):
+        if car.player.speed < 0:
+            car.player.brake(-0.5)
+        if car.player.speed > 0:
+            car.player.brake(0.5)
     if car.pressed.get(pygame.K_LEFT):
         car.player.turn(-1.8)
     if car.pressed.get(pygame.K_RIGHT):
         car.player.turn(1.8)
     car_sprites.update()
-
+    print(car.player.speed)
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     car_sprites.draw(window)
     pygame.display.flip()
