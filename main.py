@@ -7,10 +7,13 @@ WINDOW_SIZE = pygame.display.get_desktop_sizes()[0]
 WINDOW_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME  # | pygame.RESIZABLE
 
 
-
-joysticks = pygame.joystick.Joystick(0)
-joysticks.init()
-print(f"Joystick detected: {joysticks.get_name()}")
+if pygame.joystick.get_count() != 0:
+    controller=True
+    joysticks = pygame.joystick.Joystick(0)
+    joysticks.init()
+    print(f"Joystick detected: {joysticks.get_name()}")
+else:
+    controller=False
 
 window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
 
@@ -49,7 +52,7 @@ clock = pygame.time.Clock()
 joystick_axis_0 = 0
 joystick_axis_4 = 0
 joystick_axis_5 = 0
-
+X_button=False
 running = True
 while running:
     keys = pygame.key.get_pressed()
@@ -60,44 +63,50 @@ while running:
             car.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
-        if event.type == pygame.JOYAXISMOTION:
-            if event.axis == 0:
-                joystick_axis_0 = event.value
-            if event.axis == 4 :
-               joystick_axis_4 = event.value
-            if event.axis == 5 :
-               joystick_axis_5 = event.value
-        
+        if controller != False:
+            if event.type == pygame.JOYAXISMOTION:
+                if event.axis == 0:
+                    joystick_axis_0 = event.value
+                if event.axis == 4 :
+                    joystick_axis_4 = event.value
+                if event.axis == 5 :
+                    joystick_axis_5 = event.value
+            
     if abs(joystick_axis_0) > 0.1: 
         car.player.turn(1.8 * joystick_axis_0)
     
     if abs(joystick_axis_4) > 0.1: 
-        car.player.accelerate(-0.1 * (joystick_axis_4+1))
+        car.player.accelerate(-0.1 * (joystick_axis_4+1)/1.5)
 
     if abs(joystick_axis_5) > 0.1: 
-        car.player.accelerate(0.1 * (joystick_axis_5+1))
+        car.player.accelerate(0.1 * (joystick_axis_5+1)/1.5)
 
+    if controller!=False:
+        if joysticks.get_button(2):
+            X_button=True
+        else :
+            X_button=False
 
     
     keypresses = [k for k, v in car.pressed.items() if v == True]
 
     if (not any(key in kevents["up"] for key in keypresses)or joystick_axis_5!=0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5!=0):
         if car.player.speed > 0:
-            car.player.brake(0.1)  
+            car.player.brake(0.05)  
         elif car.player.speed < 0:
-            car.player.brake(-0.1)  
+            car.player.brake(-0.05)  
 
     for key in keypresses:
         if key in kevents["leave"]:
             running = False
             
         if key in kevents["down"]: 
-            car.player.accelerate(-0.2)
+            car.player.accelerate(-0.1)
             
         if key in kevents["up"]: 
-            car.player.accelerate(0.2)
+            car.player.accelerate(0.1)
             
-        if key in kevents["handbrake"] or joysticks.get_button(2): 
+        if key in kevents["handbrake"] or X_button==True: 
             if car.player.speed < 0:
                 car.player.brake(-0.5)
             else:
@@ -112,7 +121,6 @@ while running:
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     car_sprites.draw(window)
-    print(car.player.speed)
     pygame.display.flip()
     
     clock.tick_busy_loop(60)
