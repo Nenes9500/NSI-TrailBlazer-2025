@@ -63,6 +63,7 @@ while running:
             car.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
+
         if controller != False:
             if event.type == pygame.JOYAXISMOTION:
                 if event.axis == 0:
@@ -87,7 +88,7 @@ while running:
         else :
             X_button=False
 
-    
+
     keypresses = [k for k, v in car.pressed.items() if v == True]
 
     if (not any(key in kevents["up"] for key in keypresses)or joystick_axis_5!=0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5!=0):
@@ -99,6 +100,7 @@ while running:
     for key in keypresses:
         if key in kevents["leave"]:
             running = False
+
             
         if key in kevents["down"]: 
             car.player.accelerate(-0.1)
@@ -107,16 +109,18 @@ while running:
             car.player.accelerate(0.1)
             
         if key in kevents["handbrake"] or X_button==True: 
+
             if car.player.speed < 0:
                 car.player.brake(-0.5)
             else:
                 car.player.brake(0.5)
-			
+		
         if key in kevents["left"]: 
+
+
             car.player.turn(-1.8)
         if key in kevents["right"]:
             car.player.turn(1.8)
-
 
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
