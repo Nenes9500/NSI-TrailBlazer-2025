@@ -58,7 +58,7 @@ while running:
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
         if event.type == pygame.JOYAXISMOTION:
-           if event.axis == 0 and (event.value >0.1 or event.value <-0.1):
+            if event.axis == 0 and (event.value > 0.1 or event.value < -0.1):
                 car.player.turn(1.8)
 
     keypresses = [k for k, v in car.pressed.items() if v == True]
@@ -66,28 +66,27 @@ while running:
     for key in keypresses:
         if key in kevents["leave"]:
             running = False
-            
-        if key in kevents["down"]: # joysticks 4
+
+        if key in kevents["down"]:
             car.player.accelerate(-0.1)
         elif car.player.speed < 0:
             car.player.brake(-0.1)
-            
-        if key in kevents["up"]: # joysticks 5
+
+        if key in kevents["up"]:
             car.player.accelerate(0.1)
         elif car.player.speed > 0:
             car.player.brake(0.1)
-            
-		if key in kevents["handbrake"]: # joysticks 2
-			if car.player.speed < 0:
-            	car.player.brake(-0.5)
-        	else:
-            	car.player.brake(0.5)
-			
-        if key in kevents["left"]: # joysticks 13
-            car.player.turn(-1.8)
-        if key in kevents["right"]: # joysticks 14
-            car.player.turn(1.8)
 
+        if key in kevents["handbrake"]:  # joysticks 2
+            if car.player.speed < 0:
+                car.player.brake(-0.5)
+            else:
+                car.player.brake(0.5)
+
+        if key in kevents["left"]:
+            car.player.turn(-1.8)
+        if key in kevents["right"]:
+            car.player.turn(1.8)
 
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
