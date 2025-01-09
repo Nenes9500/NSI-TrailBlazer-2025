@@ -20,6 +20,8 @@ class CarSprite(pygame.sprite.Sprite):
         self.speed = 0
         self.velocity = pygame.math.Vector2(0, 0)
         self.position = pygame.math.Vector2(x, y)
+        self.maxspeedfront = 29.9
+        self.maxspeedback = -6.9
 
     def turn(self, angle_degrees, force=False):
         if self.speed != 0 or force:
@@ -33,14 +35,15 @@ class CarSprite(pygame.sprite.Sprite):
                 self.rect.center = (x, y)
 
     def accelerate(self, amount):
-        if self.speed >= 0:
-            self.speed += amount
+        if self.maxspeedfront >= self.speed and self.maxspeedback <= self.speed:
+            self.speed = round(self.speed+amount, 2)
 
     def brake(self, amount):
-        if self.speed <= 0:
-            self.speed -= amount
+        if self.speed < 0 and amount < 0:
+            self.speed = round(self.speed-amount, 2)
+        elif self.speed > 0 and amount > 0:
+            self.speed = round(self.speed-amount, 2)
 
     def update(self):
         self.velocity.from_polar((self.speed, math.degrees(self.heading)))
         self.position += self.velocity
-        # self.rect.center = (round(self.position[0]), round(self.position[1]))
