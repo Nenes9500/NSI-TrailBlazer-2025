@@ -2,9 +2,6 @@ import pygame
 from game import Game
 # from manette import *
 
-WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
-WINDOW_SURFACE = pygame.HWSURFACE | pygame.NOFRAME | pygame.RESIZABLE
 WINDOW_SIZE = pygame.display.get_desktop_sizes()[0]
 WINDOW_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME  # | pygame.RESIZABLE
 
@@ -16,8 +13,6 @@ joysticks = pygame.joystick.Joystick(0)
 joysticks.init()
 print(f"Joystick detected: {joysticks.get_name()}")
 
-window = pygame.display.set_mode(
-    (WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_SURFACE, vsync=1)
 window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
 
 pygame.display.set_caption("TrailBlazer")
@@ -33,7 +28,6 @@ car_img = pygame.transform.scale(
     car_img, (car_img_size[0]//4, car_img_size[1]//4))
 
 
-car = Game(car_img, WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 car = Game(car_img, WINDOW_SIZE[0]//2, WINDOW_SIZE[1]//2)
 car_sprites = pygame.sprite.Group()
 car_sprites.add(car.player)
@@ -63,8 +57,6 @@ running = True
 while running:
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
-        if (event.type == pygame.QUIT):
-            done = True
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
