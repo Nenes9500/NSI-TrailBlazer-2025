@@ -1,21 +1,13 @@
+from pygame import *
 import pygame
-import pygame
-from game import Game
-# from manette import *
+from Game import Game
+
+pygame.init()
 
 WINDOW_SIZE = pygame.display.get_desktop_sizes()[0]
 WINDOW_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME  # | pygame.RESIZABLE
 
-
-pygame.init()
-pygame.joystick.init()
-
-joysticks = pygame.joystick.Joystick(0)
-joysticks.init()
-print(f"Joystick detected: {joysticks.get_name()}")
-
 window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
-
 pygame.display.set_caption("TrailBlazer")
 
 background = pygame.image.load('img/racetrack.png')
@@ -40,8 +32,8 @@ kevents = {
     "left": [pygame.K_LEFT, pygame.K_q],
     "right": [pygame.K_RIGHT, pygame.K_d],
     "handbrake": [pygame.K_SPACE],
-    "gearup": [pygame.K_e],
-    "geardown": [pygame.K_a],
+    "speedup": [pygame.K_e],
+    "speeddown": [pygame.K_a],
     "leave": [pygame.K_ESCAPE]
 }
 
@@ -57,41 +49,31 @@ while running:
             car.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
-        if event.type == pygame.JOYAXISMOTION:
-           if event.axis == 0 and (event.value >0.1 or event.value <-0.1):
-                car.player.turn(1.8)
 
     keypresses = [k for k, v in car.pressed.items() if v == True]
 
     for key in keypresses:
         if key in kevents["leave"]:
             running = False
-            
-        if key in kevents["down"]: # joysticks 4
-            car.player.accelerate(-0.1)
-        elif car.player.speed < 0:
-            car.player.brake(-0.1)
-            
-        if key in kevents["up"]: # joysticks 5
-            car.player.accelerate(0.1)
-        elif car.player.speed > 0:
+        if key in kevents["down"]:
             car.player.brake(0.1)
-            
-		if key in kevents["handbrake"]: # joysticks 2
-			if car.player.speed < 0:
-            	car.player.brake(-0.5)
-        	else:
-            	car.player.brake(0.5)
-			
-        if key in kevents["left"]: # joysticks 13
+        else:
+            car.player.brake(-0.075)
+        if key in kevents["up"]:
+            car.player.accelerate(0.1)
+        else:
+            car.player.accelerate(-0.075)
+        if key in kevents["left"]:
             car.player.turn(-1.8)
-        if key in kevents["right"]: # joysticks 14
+        if key in kevents["right"]:
             car.player.turn(1.8)
 
-
     car_sprites.update()
+
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     car_sprites.draw(window)
     pygame.display.flip()
 
     clock.tick_busy_loop(60)
+
+pygame.quit()
