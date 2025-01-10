@@ -39,9 +39,9 @@ class CarSprite(pygame.sprite.Sprite):
             self.speed = round(self.speed+amount, 2)
 
     def brake(self, amount):
-        if self.speed < 0 and amount < 0:
+        if self.speed < 0:
             self.speed = round(self.speed-amount, 2)
-        elif self.speed > 0 and amount > 0:
+        elif self.speed > 0:
             self.speed = round(self.speed-amount, 2)
 
     def update(self):
