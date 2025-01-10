@@ -47,3 +47,9 @@ class CarSprite(pygame.sprite.Sprite):
     def update(self):
         self.velocity.from_polar((self.speed, math.degrees(self.heading)))
         self.position += self.velocity
+
+
+class Game(CarSprite):
+    def __init__(self, car_image, x, y, rotations=360):
+        self.player = CarSprite(car_image, x, y, rotations)
+        self.pressed = {}
