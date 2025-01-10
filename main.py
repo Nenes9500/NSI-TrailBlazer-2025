@@ -8,17 +8,17 @@ WINDOW_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME  # | pygame.
 
 
 if pygame.joystick.get_count() != 0:
-    controller=True
+    controller = True
     joysticks = pygame.joystick.Joystick(0)
     joysticks.init()
     print(f"Joystick detected: {joysticks.get_name()}")
 else:
-    controller=False
+    controller = False
 
 window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
 
 pygame.display.set_caption("TrailBlazer")
-
+police = pygame.font.Font(None, 36)
 
 background = pygame.image.load('img/racetrack.png')
 background_size = background.get_size()
@@ -52,7 +52,7 @@ clock = pygame.time.Clock()
 joystick_axis_0 = 0
 joystick_axis_4 = 0
 joystick_axis_5 = 0
-X_button=False
+X_button = False
 running = True
 while running:
     keys = pygame.key.get_pressed()
@@ -68,63 +68,62 @@ while running:
             if event.type == pygame.JOYAXISMOTION:
                 if event.axis == 0:
                     joystick_axis_0 = event.value
-                if event.axis == 4 :
+                if event.axis == 4:
                     joystick_axis_4 = event.value
-                if event.axis == 5 :
+                if event.axis == 5:
                     joystick_axis_5 = event.value
-            
-    if abs(joystick_axis_0) > 0.1: 
+
+    if abs(joystick_axis_0) > 0.1:
         car.player.turn(1.8 * joystick_axis_0)
-    
-    if abs(joystick_axis_4) > 0.1: 
+
+    if abs(joystick_axis_4) > 0.1:
         car.player.accelerate(-0.1 * (joystick_axis_4+1)/1.5)
 
-    if abs(joystick_axis_5) > 0.1: 
+    if abs(joystick_axis_5) > 0.1:
         car.player.accelerate(0.1 * (joystick_axis_5+1)/1.5)
 
-    if controller!=False:
+    if controller != False:
         if joysticks.get_button(2):
-            X_button=True
-        else :
-            X_button=False
-
+            X_button = True
+        else:
+            X_button = False
 
     keypresses = [k for k, v in car.pressed.items() if v == True]
 
-    if (not any(key in kevents["up"] for key in keypresses)or joystick_axis_5!=0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5!=0):
+    if (not any(key in kevents["up"] for key in keypresses) or joystick_axis_5 != 0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5 != 0):
         if car.player.speed > 0:
-            car.player.brake(0.05)  
+            car.player.brake(0.05)
         elif car.player.speed < 0:
-            car.player.brake(-0.05)  
+            car.player.brake(-0.05)
 
     for key in keypresses:
         if key in kevents["leave"]:
             running = False
 
-            
-        if key in kevents["down"]: 
+        if key in kevents["down"]:
             car.player.accelerate(-0.1)
-            
-        if key in kevents["up"]: 
-            car.player.accelerate(0.1)
-            
-        if key in kevents["handbrake"] or X_button==True: 
 
+        if key in kevents["up"]:
+            car.player.accelerate(0.1)
+
+        if key in kevents["handbrake"] or X_button == True:
             if car.player.speed < 0:
                 car.player.brake(-0.5)
             else:
                 car.player.brake(0.5)
-		
-        if key in kevents["left"]: 
 
-
+        if key in kevents["left"]:
             car.player.turn(-1.8)
         if key in kevents["right"]:
             car.player.turn(1.8)
 
+    texte = police.render(
+        (f"Speed :{abs(car.player.speed)}"), True, (255, 255, 255))
+
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
+    window.blit(texte, (25, 25))
     car_sprites.draw(window)
     pygame.display.flip()
-    
+    print(clock)
     clock.tick_busy_loop(60)
