@@ -1,6 +1,6 @@
 import pygame
 from Player import Game
-from controls import *
+from controls import Controls
 
 pygame.init()
 pygame.joystick.init()
@@ -33,49 +33,21 @@ car.player.turn(-80, True)
 
 clock = pygame.time.Clock()
 
+controls = Controls()
+
 running = True
 while running:
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            car.pressed[event.key] = 1
-        elif event.type == pygame.KEYUP:
-            car.pressed[event.key] = 0
+        elif event.type == pygame.KEYDOWN or pygame.JOYBUTTONDOWN:
+            controls.pressed[event.key] = 1
+        elif event.type == pygame.KEYUP or pygame.JOYBUTTONUP:
+            controls.pressed[event.key] = 0
         elif event.type == pygame.JOYAXISMOTION:
-            car.pressed[event.axis] = event.value
-
-    keypresses = [k for k, v in car.pressed.items() if v != 0]
-
-    if (not any(key in kevents["up"] for key in keypresses) or joystick_axis_5 != 0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5 != 0):
-        if car.player.speed > 0:
-            car.player.brake(0.05)
-        elif car.player.speed < 0:
-            car.player.brake(-0.05)
-
-    for key in keypresses:
-        if key in kevents["leave"]:
-            running = False
-
-        if key in kevents["down"]:
-            car.player.accelerate(-0.1)
-
-        if key in kevents["up"]:
-            car.player.accelerate(0.1)
-
-        if key in kevents["handbrake"]:
-
-            if car.player.speed < 0:
-                car.player.brake(-0.5)
-            else:
-                car.player.brake(0.5)
-
-        if key in kevents["left"]:
-
-            car.player.turn(-1.8)
-        if key in kevents["right"]:
-            car.player.turn(1.8)
+            controls.pressed["gamepad_axis_" + str(event.axis)] = event.value
+    controls.updateControls()
 
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
