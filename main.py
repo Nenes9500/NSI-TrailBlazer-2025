@@ -1,5 +1,7 @@
 import pygame
 from game import Game
+from Chrono import Minuteur
+from Score import Score
 pygame.init()
 pygame.joystick.init()
 
@@ -36,6 +38,8 @@ car_sprites.add(car.player)
 car.player.position = (16655, 9108)
 car.player.turn(-80, True)
 
+chrono = Minuteur()
+score = Score()
 kevents = {
     "up": [pygame.K_UP, pygame.K_z],
     "down": [pygame.K_DOWN, pygame.K_s],
@@ -47,6 +51,7 @@ kevents = {
     "leave": [pygame.K_ESCAPE]
 }
 
+chrono.run()
 
 clock = pygame.time.Clock()
 joystick_axis_0 = 0
@@ -117,13 +122,22 @@ while running:
         if key in kevents["right"]:
             car.player.turn(1.8)
 
-    texte = police.render(
-        (f"Speed :{abs(car.player.speed)}"), True, (255, 255, 255))
+    speed = police.render(
+        (f"Speed :{abs(round(car.player.speed, 1))}"), True, (255, 255, 255))
+
+    chrono.affichage()
+    minuteur = police.render(
+        (f"{chrono}"), True, (255, 255, 255))
+
+    score.calculscore(car.player.speed, chrono.timer)
+    scr = police.render(
+        (f"{score}"), True, (255, 255, 255))
 
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
-    window.blit(texte, (25, 25))
+    window.blit(speed, (25, 25))
+    window.blit(minuteur, (25, 50))
+    window.blit(scr, (25, 75))
     car_sprites.draw(window)
     pygame.display.flip()
-    print(clock)
     clock.tick_busy_loop(60)
