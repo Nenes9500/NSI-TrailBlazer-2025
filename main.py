@@ -141,3 +141,5 @@ while running:
     car_sprites.draw(window)
     pygame.display.flip()
     clock.tick_busy_loop(60)
+
+    print(car.pressed)

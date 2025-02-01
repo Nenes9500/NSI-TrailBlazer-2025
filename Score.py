@@ -6,7 +6,7 @@ class Score(object):
         self.score = 0
 
     def calculscore(self, speed, time):
-        self.score = (self.score+time*(speed/100))
+        self.score = (self.score+time*abs(speed/100))
 
     def __str__(self):
         return f"Score : {math.trunc(self.score)}"
