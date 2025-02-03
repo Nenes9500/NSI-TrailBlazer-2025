@@ -59,6 +59,21 @@ joystick_axis_4 = 0
 joystick_axis_5 = 0
 X_button = False
 running = True
+
+pause=False
+
+
+def paused(pause):
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    pause=False
+                    return pause
+        pygame.display.update()
+        clock.tick(15)
+
+
 while running:
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
@@ -66,6 +81,9 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             car.pressed[event.key] = True
+            if event.key ==pygame.K_p:
+                pause=True
+                pause=paused(pause)
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
 
@@ -100,6 +118,7 @@ while running:
             car.player.brake(0.05)
         elif car.player.speed < 0:
             car.player.brake(-0.05)
+
 
     for key in keypresses:
         if key in kevents["leave"]:
@@ -137,6 +156,7 @@ while running:
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     window.blit(speed, (25, 25))
     window.blit(minuteur, (25, 50))
+    window.blit(minuteur, (1050, 25))
     window.blit(scr, (25, 75))
     car_sprites.draw(window)
     pygame.display.flip()
