@@ -155,7 +155,6 @@ while running:
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     window.blit(speed, (25, 25))
-    window.blit(minuteur, (25, 50))
     window.blit(minuteur, (1050, 25))
     window.blit(scr, (25, 75))
     car_sprites.draw(window)
