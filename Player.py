@@ -20,6 +20,7 @@ class CarSprite(pygame.sprite.Sprite):
         self.speed = 0
         self.velocity = pygame.math.Vector2(0, 0)
         self.position = pygame.math.Vector2(x, y)
+        self.positionBot= pygame.math.Vector2(x, y)
         self.maxspeedfront = 29.9
         self.maxspeedback = -6.9
 

@@ -2,6 +2,7 @@ import pygame
 from game import Game
 from Chrono import Minuteur
 from Score import Score
+from Bot import Fantome
 pygame.init()
 pygame.joystick.init()
 
@@ -38,6 +39,8 @@ car_sprites.add(car.player)
 car.player.position = (16655, 9108)
 car.player.turn(-80, True)
 
+fantome=Fantome()
+
 chrono = Minuteur()
 score = Score()
 kevents = {
@@ -60,7 +63,6 @@ joystick_axis_5 = 0
 X_button = False
 running = True
 
-pause=False
 
 
 def paused(pause):
@@ -69,21 +71,27 @@ def paused(pause):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     pause=False
-                    return pause
+                    return True
+                elif event.key==pygame.K_ESCAPE:
+                    pause=False
+                    return False
         pygame.display.update()
         clock.tick(15)
 
-
+car.player.positionBot=car.player.position
 while running:
-    keys = pygame.key.get_pressed()
+    if fantome.Play==False :
+        keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             car.pressed[event.key] = True
             if event.key ==pygame.K_p:
-                pause=True
-                pause=paused(pause)
+                running=paused(True)
+            if event.key == pygame.K_b:
+                fantome.Play=True
+                car.player.position=car.player.positionBot
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
 
@@ -110,8 +118,8 @@ while running:
             X_button = True
         else:
             X_button = False
-
-    keypresses = [k for k, v in car.pressed.items() if v == True]
+    if fantome.Play==False :
+        keypresses = [k for k, v in car.pressed.items() if v == True]
 
     if (not any(key in kevents["up"] for key in keypresses) or joystick_axis_5 != 0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5 != 0):
         if car.player.speed > 0:
@@ -161,4 +169,9 @@ while running:
     pygame.display.flip()
     clock.tick_busy_loop(60)
 
-    print(car.pressed)
+    if fantome.Play==False:
+        fantome.add_movement(keypresses)
+        car.player.positionBot = (16655, 9108)
+    else :
+        keypresses=fantome.playing()
+        print(keypresses)
