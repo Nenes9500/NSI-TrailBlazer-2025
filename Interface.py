@@ -2,7 +2,7 @@ import pygame
 from game import Game
 from Chrono import Minuteur
 from Score import Score
-from Bot import Fantome
+from bot import Fantome
 pygame.init()
 pygame.joystick.init()
 
