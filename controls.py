@@ -1,5 +1,5 @@
 import pygame
-from test import car
+from Player import Game
 
 
 pygame.init()
@@ -7,7 +7,8 @@ pygame.joystick.init()
 
 
 class Controls:
-    def __init__(self) -> None:
+    def __init__(self, car) -> None:
+        self.car = car
         self.pressed = {}
         self.kevents = {
             "up": [pygame.K_UP, pygame.K_z, "gamepad_axis_4"],
@@ -32,31 +33,31 @@ class Controls:
             if key in self.kevents["leave"]:
                 running = False
             elif key in self.kevents["down"]:
-                car.player.accelerate(-0.1*self.pressed[key])
+                self.car.player.accelerate(-0.1*self.pressed[key])
                 accel = True
             if key in self.kevents["up"]:
-                car.player.accelerate(0.1*self.pressed[key])
+                self.car.player.accelerate(0.1*self.pressed[key])
                 accel = True
             elif key in self.kevents["handbrake"]:
-                if car.player.speed < 0:
-                    car.player.brake(-0.5)
+                if self.car.player.speed < 0:
+                    self.car.player.brake(-0.5)
                 else:
-                    car.player.brake(0.5)
+                    self.car.player.brake(0.5)
                 accel = True
             elif key in self.kevents["left"]:
                 if key == "gamepad_axis_0":
                     if self.pressed[key] < 0:
-                        car.player.turn(1.8*self.pressed[key])
+                        self.car.player.turn(1.8*self.pressed[key])
                 else:
-                    car.player.turn(-1.8*self.pressed[key])
+                    self.car.player.turn(-1.8*self.pressed[key])
             elif key in self.kevents["right"]:
                 if key == "gamepad_axis_0":
                     if self.pressed[key] > 0:
-                        car.player.turn(1.8*self.pressed[key])
+                        self.car.player.turn(1.8*self.pressed[key])
                 else:
-                    car.player.turn(1.8*self.pressed[key])
+                    self.car.player.turn(1.8*self.pressed[key])
         if not accel:
-            if car.player.speed > 0:
-                car.player.brake(0.05)
-            elif car.player.speed < 0:
-                car.player.brake(-0.05)
+            if self.car.player.speed > 0:
+                self.car.player.brake(0.05)
+            elif self.car.player.speed < 0:
+                self.car.player.brake(-0.05)
