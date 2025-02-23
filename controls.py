@@ -29,7 +29,7 @@ class Controls:
         keypresses = [k for k, v in self.pressed.items() if abs(v) >= 0.1]
         accel = False
 
-        for key in keypresses:
+        for key in keypresses:  # TODO: make sure the max value is respected when multiple control methods are used at the same time
             if key in self.kevents["leave"]:
                 running = False
             elif key in self.kevents["down"]:

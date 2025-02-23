@@ -37,7 +37,7 @@ clock = pygame.time.Clock()
 controls = Controls(car)
 
 running = True
-while running:  # TODO: ceiling of 1 on analog accel
+while running:
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
