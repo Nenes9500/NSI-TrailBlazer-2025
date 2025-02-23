@@ -3,6 +3,7 @@ from game import Game
 from Chrono import Minuteur
 from Score import Score
 from bot import Fantome
+import math
 pygame.init()
 pygame.joystick.init()
 
@@ -63,7 +64,32 @@ joystick_axis_5 = 0
 X_button = False
 running = True
 
+# Couleurs
+CENTER = (75, 75)
+RADIUS = 75
+WHITE = (0, 0, 0)
+BLACK = (0, 0, 0)
+RED = (200, 0, 0)
+Lines=(0,75)
+Line=(150,75)
 
+# Fonction pour dessiner le cadran et l'aiguille
+def draw_needle(angle):
+    # Dessiner le cadran
+    pygame.draw.circle(window, BLACK, CENTER, RADIUS, 3, True, True)
+    pygame.draw.line(window, BLACK,Lines,Line,3)
+
+    # Calcul de la position de l'extrémité de l'aiguille
+    angle_rad = math.radians(((angle+1)*4-90))  # Convertir en radians
+    needle_length = RADIUS - 10
+    needle_x = CENTER[0] + needle_length * math.cos(angle_rad - math.pi / 2)
+    needle_y = CENTER[1] + needle_length * math.sin(angle_rad - math.pi / 2)
+
+    # Dessiner l'aiguille
+    pygame.draw.line(window, RED, CENTER, (needle_x, needle_y), 4)
+    pygame.draw.circle(window, BLACK, CENTER, 5)  # Centre du cadran
+
+    pygame.display.flip()
 
 def paused(pause):
     while pause:
@@ -91,7 +117,10 @@ while running:
                 running=paused(True)
             if event.key == pygame.K_b:
                 fantome.Play=True
+                car.player.speed=0
                 car.player.position=car.player.positionBot
+                car.player.heading = 0
+                car.player.turn(-80, True)
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
 
@@ -162,11 +191,10 @@ while running:
 
     car_sprites.update()
     window.blit(background, (-car.player.position.x, - car.player.position.y))
-    window.blit(speed, (25, 25))
-    window.blit(minuteur, (1050, 25))
-    window.blit(scr, (25, 75))
+    window.blit(speed, (25, 100))
+    window.blit(minuteur, ((WINDOW_SIZE[0]//2)-75, 10))
+    window.blit(scr, (25, 150))
     car_sprites.draw(window)
-    pygame.display.flip()
     clock.tick_busy_loop(60)
 
     if fantome.Play==False:
@@ -174,4 +202,6 @@ while running:
         car.player.positionBot = (16655, 9108)
     else :
         keypresses=fantome.playing()
-        print(keypresses)
+    draw_needle(abs(car.player.speed))
+    if controller == True:
+        joysticks.rumble(abs(car.player.speed/car.player.maxspeedfront*0.1),abs(car.player.speed/car.player.maxspeedfront*0.1),1)
