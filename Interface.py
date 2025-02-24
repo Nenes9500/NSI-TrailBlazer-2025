@@ -40,7 +40,7 @@ car_sprites.add(car.player)
 car.player.position = (16655, 9108)
 car.player.turn(-80, True)
 
-fantome=Fantome()
+fantome = Fantome()
 
 chrono = Minuteur()
 score = Score()
@@ -67,60 +67,57 @@ running = True
 # Couleurs
 CENTER = (75, 75)
 RADIUS = 75
-WHITE = (0, 0, 0)
 BLACK = (0, 0, 0)
 RED = (200, 0, 0)
-Lines=(0,75)
-Line=(150,75)
 
-# Fonction pour dessiner le cadran et l'aiguille
+
 def draw_needle(angle):
-    # Dessiner le cadran
     pygame.draw.circle(window, BLACK, CENTER, RADIUS, 3, True, True)
-    pygame.draw.line(window, BLACK,Lines,Line,3)
+    pygame.draw.line(window, BLACK, (0, 75), (150, 75), 3)
 
-    # Calcul de la position de l'extrémité de l'aiguille
-    angle_rad = math.radians(((angle+1)*4-90))  # Convertir en radians
+    angle_rad = math.radians(((angle+1)*4-90))
     needle_length = RADIUS - 10
     needle_x = CENTER[0] + needle_length * math.cos(angle_rad - math.pi / 2)
     needle_y = CENTER[1] + needle_length * math.sin(angle_rad - math.pi / 2)
 
-    # Dessiner l'aiguille
     pygame.draw.line(window, RED, CENTER, (needle_x, needle_y), 4)
-    pygame.draw.circle(window, BLACK, CENTER, 5)  # Centre du cadran
+    pygame.draw.circle(window, BLACK, CENTER, 5)
 
     pygame.display.flip()
+
 
 def paused(pause):
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
-                    pause=False
+                    pause = False
                     return True
-                elif event.key==pygame.K_ESCAPE:
-                    pause=False
+                elif event.key == pygame.K_ESCAPE:
+                    pause = False
                     return False
         pygame.display.update()
         clock.tick(15)
 
-car.player.positionBot=car.player.position
+
+car.player.positionBot = car.player.position
 while running:
-    if fantome.Play==False :
+    if fantome.Play == False:
         keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             car.pressed[event.key] = True
-            if event.key ==pygame.K_p:
-                running=paused(True)
+            if event.key == pygame.K_p:
+                running = paused(True)
             if event.key == pygame.K_b:
-                fantome.Play=True
-                car.player.speed=0
-                car.player.position=car.player.positionBot
+                fantome.Play = True
+                car.player.speed = 0
+                car.player.position = car.player.positionBot
                 car.player.heading = 0
                 car.player.turn(-80, True)
+                print(fantome.lst)
         elif event.type == pygame.KEYUP:
             car.pressed[event.key] = False
 
@@ -147,7 +144,7 @@ while running:
             X_button = True
         else:
             X_button = False
-    if fantome.Play==False :
+    if fantome.Play == False:
         keypresses = [k for k, v in car.pressed.items() if v == True]
 
     if (not any(key in kevents["up"] for key in keypresses) or joystick_axis_5 != 0) and (not any(key in kevents["down"] for key in keypresses) or joystick_axis_5 != 0):
@@ -155,7 +152,6 @@ while running:
             car.player.brake(0.05)
         elif car.player.speed < 0:
             car.player.brake(-0.05)
-
 
     for key in keypresses:
         if key in kevents["leave"]:
@@ -197,11 +193,14 @@ while running:
     car_sprites.draw(window)
     clock.tick_busy_loop(60)
 
-    if fantome.Play==False:
+    if fantome.Play == False:
         fantome.add_movement(keypresses)
         car.player.positionBot = (16655, 9108)
-    else :
-        keypresses=fantome.playing()
+    else:
+        keypresses = fantome.playing()
+
     draw_needle(abs(car.player.speed))
+
     if controller == True:
-        joysticks.rumble(abs(car.player.speed/car.player.maxspeedfront*0.1),abs(car.player.speed/car.player.maxspeedfront*0.1),1)
+        joysticks.rumble(abs(car.player.speed/car.player.maxspeedfront*0.1),
+                         abs(car.player.speed/car.player.maxspeedfront*0.1), 1)
