@@ -31,7 +31,7 @@ class Controls:
 
         for key in keypresses:  # TODO: make sure the max value is respected when multiple control methods are used at the same time
             if key in self.kevents["leave"]:
-                running = False
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
             elif key in self.kevents["down"]:
                 self.car.player.accelerate(-0.1*self.pressed[key])
                 accel = True

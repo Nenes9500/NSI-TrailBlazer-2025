@@ -14,10 +14,10 @@ window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
 pygame.display.set_caption("TrailBlazer")
 
 
-background = pygame.image.load('img/racetrack.png')
+background = pygame.image.load('img/racetrack_big.png')
 background_size = background.get_size()
-background = pygame.transform.scale(
-    background, (background_size[0]*1.5, background_size[1]*1.5))
+# background = pygame.transform.scale(
+# background, (background_size[0]*3, background_size[1]*3))
 
 car_img = pygame.image.load('img/voiture.png').convert_alpha()
 car_img_size = car_img.get_size()
@@ -28,7 +28,7 @@ car = Game(car_img, WINDOW_SIZE[0]//2, WINDOW_SIZE[1]//2)
 
 car_sprites = pygame.sprite.Group()
 car_sprites.add(car.player)
-car.player.position = (16655, 9108)
+car.player.position = (8322, 4604)
 car.player.turn(-80, True)
 
 
