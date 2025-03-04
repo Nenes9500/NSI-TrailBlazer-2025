@@ -1,3 +1,4 @@
+import psutil
 import pygame
 from Player import Game
 from controls import Controls
@@ -15,9 +16,10 @@ pygame.display.set_caption("TrailBlazer")
 
 
 background = pygame.image.load('img/racetrack_big.png')
-background_size = background.get_size()
+# background_size = background.get_size()
 # background = pygame.transform.scale(
 # background, (background_size[0]*3, background_size[1]*3))
+background = pygame.transform.rotozoom(background, 0, 1.4)
 
 car_img = pygame.image.load('img/voiture.png').convert_alpha()
 car_img_size = car_img.get_size()
@@ -37,26 +39,41 @@ clock = pygame.time.Clock()
 controls = Controls(car)
 
 running = True
-while running:
-    keys = pygame.key.get_pressed()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            controls.pressed[event.key] = 1
-        elif event.type == pygame.JOYBUTTONDOWN:
-            controls.pressed[event.button] = 1
-        elif event.type == pygame.KEYUP:
-            controls.pressed[event.key] = 0
-        elif event.type == pygame.JOYBUTTONUP:
-            controls.pressed[event.button] = 0
-        elif event.type == pygame.JOYAXISMOTION:
-            controls.pressed["gamepad_axis_" + str(event.axis)] = event.value
-    controls.updateControls()
 
-    car_sprites.update()
-    window.blit(background, (-car.player.position.x, - car.player.position.y))
-    car_sprites.draw(window)
-    pygame.display.flip()
 
-    clock.tick_busy_loop(60)
+def print_memory_usage():
+    process = psutil.Process()
+    print(f"Memory usage: {process.memory_info().rss / 1024 ** 2} MB")
+
+
+try:
+    while running:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                controls.pressed[event.key] = 1
+            elif event.type == pygame.JOYBUTTONDOWN:
+                controls.pressed[event.button] = 1
+            elif event.type == pygame.KEYUP:
+                controls.pressed[event.key] = 0
+            elif event.type == pygame.JOYBUTTONUP:
+                controls.pressed[event.button] = 0
+            elif event.type == pygame.JOYAXISMOTION:
+                controls.pressed["gamepad_axis_" +
+                                 str(event.axis)] = event.value
+        controls.updateControls()
+
+        car_sprites.update()
+        window.blit(
+            background, (-car.player.position.x, - car.player.position.y))
+        car_sprites.draw(window)
+        pygame.display.flip()
+        print_memory_usage()
+        clock.tick_busy_loop(60)
+
+except Exception as e:
+    print(f"An error occured: {e}")
+    pygame.quit()
+    raise e
