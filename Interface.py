@@ -2,7 +2,7 @@ import pygame
 from game import Game
 from Chrono import Minuteur
 from Score import Score
-from bot import Fantome
+from Replay.bot import Fantome
 import math
 pygame.init()
 pygame.joystick.init()
@@ -186,6 +186,7 @@ while running:
         (f"{score}"), True, (255, 255, 255))
 
     car_sprites.update()
+
     window.blit(background, (-car.player.position.x, - car.player.position.y))
     window.blit(speed, (25, 100))
     window.blit(minuteur, ((WINDOW_SIZE[0]//2)-75, 10))
