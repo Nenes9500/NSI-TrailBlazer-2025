@@ -1,4 +1,5 @@
 import pygame
+import time
 from game import Game
 from Chrono import Minuteur
 from Score import Score
@@ -23,6 +24,8 @@ window = pygame.display.set_mode(WINDOW_SIZE, WINDOW_FLAGS)
 
 pygame.display.set_caption("TrailBlazer")
 police = pygame.font.Font(None, 36)
+policebigger = pygame.font.Font(None, 72)
+
 
 background = pygame.image.load('img/racetrack.png')
 background_size = background.get_size()
@@ -110,7 +113,11 @@ while running:
         elif event.type == pygame.KEYDOWN:
             car.pressed[event.key] = True
             if event.key == pygame.K_p:
+                p = policebigger.render(f"Pause", True, (255, 0, 0))
+                window.blit(p, (WINDOW_SIZE[0]/2-100, WINDOW_SIZE[1]/2-50))
+                chrono.pause(True)
                 running = paused(True)
+                chrono.pause(False)
             if event.key == pygame.K_b:
                 fantome.Play = True
                 car.player.speed = 0
