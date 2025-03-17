@@ -115,9 +115,9 @@ while running:
             if event.key == pygame.K_p:
                 p = policebigger.render(f"Pause", True, (255, 0, 0))
                 window.blit(p, (WINDOW_SIZE[0]/2-100, WINDOW_SIZE[1]/2-50))
-                chrono.pause(True)
+                chrono.pauser()
                 running = paused(True)
-                chrono.pause(False)
+                chrono.pauser()
             if event.key == pygame.K_b:
                 fantome.Play = True
                 car.player.speed = 0
