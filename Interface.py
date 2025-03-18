@@ -1,5 +1,4 @@
 import pygame
-import time
 from game import Game
 from Chrono import Minuteur
 from Score import Score
