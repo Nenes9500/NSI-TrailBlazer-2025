@@ -4,6 +4,7 @@ from Chrono import Minuteur
 from Score import Score
 from Replay.bot import Fantome
 import math
+from PIL import Image
 pygame.init()
 pygame.joystick.init()
 
@@ -25,11 +26,11 @@ pygame.display.set_caption("TrailBlazer")
 police = pygame.font.Font(None, 36)
 policebigger = pygame.font.Font(None, 72)
 
-
+backgroundload=Image.open(f"img/new_race.png")
 background = pygame.image.load('img/new_race.png')
 background_size = background.get_size()
 background = pygame.transform.scale(
-    background, (background_size[0], background_size[1]))
+    background, (background_size[0]*1.5, background_size[1]*1.5))
 car_img = pygame.image.load('img/voiture.png').convert_alpha()
 car_img_size = car_img.get_size()
 car_img = pygame.transform.scale(
@@ -39,7 +40,7 @@ car_img = pygame.transform.scale(
 car = Game(car_img, WINDOW_SIZE[0]//2, WINDOW_SIZE[1]//2)
 car_sprites = pygame.sprite.Group()
 car_sprites.add(car.player)
-# car.player.position = (16655, 9108)
+
 car.player.turn(-80, True)
 
 fantome = Fantome()
