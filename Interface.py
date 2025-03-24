@@ -31,8 +31,6 @@ car = Game(car_img, WINDOW_SIZE[0]//2, WINDOW_SIZE[1]//2)
 
 car_sprites = pygame.sprite.Group()
 car_sprites.add(car.player)
-car.player.position = (16655, 9108)
-car.player.turn(-80, True)
 
 
 fantome = Fantome()
@@ -86,7 +84,6 @@ def paused(pause):
 
 car.player.positionBot = car.player.position
 
-
 try:
     while running:
         if fantome.Play == False:
@@ -120,7 +117,7 @@ try:
                                  str(event.axis)] = event.value
         controls.updateControls()
         if fantome.Play == False:
-            keypresses = [k for k, v in car.pressed.items() if v == True]
+            keypresses = [k for k, v in controls.pressed.items() if v == True]
 
         speed = police.render(
             (f"Speed :{abs(round(car.player.speed, 1))}"), True, (255, 255, 255))
@@ -146,7 +143,7 @@ try:
             car.player.positionBot = (16655, 9108)
         else:
             keypresses = fantome.playing()
-
+        print(car.position)
         draw_needle(abs(car.player.speed))
         clock.tick_busy_loop(60)
 
