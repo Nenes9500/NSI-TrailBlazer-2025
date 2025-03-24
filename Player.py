@@ -20,14 +20,14 @@ class CarSprite(pygame.sprite.Sprite):
         self.speed = 0
         self.velocity = pygame.math.Vector2(0, 0)
         self.position = pygame.math.Vector2(x, y)
+        self.positionBot= pygame.math.Vector2(x, y)
         self.maxspeedfront = 29.9
         self.maxspeedback = -6.9
 
     def turn(self, angle_degrees, force=False):
         if self.speed != 0 or force:
             self.heading += math.radians(angle_degrees)
-            image_index = int(
-                self.heading / self.min_angle) % len(self.rot_img)
+            image_index = int(self.heading / self.min_angle) % len(self.rot_img)
             if (self.image != self.rot_img[image_index]):
                 x, y = self.rect.center
                 self.image = self.rot_img[image_index]

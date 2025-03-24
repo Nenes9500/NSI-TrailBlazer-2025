@@ -9,6 +9,7 @@ pygame.joystick.init()
 class Controls:
     def __init__(self, car) -> None:
         self.car = car
+        self.controller = False
         self.pressed = {}
         self.kevents = {
             "up": [pygame.K_UP, pygame.K_z, "gamepad_axis_4"],
@@ -23,11 +24,16 @@ class Controls:
         if pygame.joystick.get_count() != 0:
             self.gamepad = pygame.joystick.Joystick(0)
             self.gamepad.init()
+            self.controller = True
             print(f"Joystick detected: {self.gamepad.get_name()}")
 
     def updateControls(self):
         keypresses = [k for k, v in self.pressed.items() if abs(v) >= 0.1]
         accel = False
+
+        if self.controller == True:
+            self.gamepad.rumble(abs(self.car.player.speed/self.car.player.maxspeedfront*0.1),
+                                abs(self.car.player.speed/self.car.player.maxspeedfront*0.1), 1)
 
         for key in keypresses:  # TODO: make sure the max value is respected when multiple control methods are used at the same time
             if key in self.kevents["leave"]:
