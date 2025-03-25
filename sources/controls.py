@@ -7,7 +7,15 @@ pygame.joystick.init()
 
 
 class Controls:
+    """
+    This class is used to manage the controls of the player.
+    """
+
     def __init__(self, car) -> None:
+        """
+        This method is used to initialize the controls of the player.
+        The keys are customizable for each control. The Class also supports gamepad controls.
+        """
         self.car = car
         self.controller = False
         self.pressed = {}
@@ -28,6 +36,10 @@ class Controls:
             print(f"Joystick detected: {self.gamepad.get_name()}")
 
     def updateControls(self):
+        """
+        This method is used to update the controls state of the player.
+        It defines the actions to be taken when a key is pressed.
+        """
         keypresses = [k for k, v in self.pressed.items() if abs(v) >= 0.1]
         accel = False
 

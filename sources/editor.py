@@ -57,30 +57,32 @@ for j in range(nj):
     for i in range(ni):
         rect = pygame.Rect(100 + 105 * i, 10 + 105 * j, 100, 100)
         rectangles.append({"rect": rect, "color": GREEN, "rotation": 0})
-        placed_tiles[j][i] = {"image": "fond", "rotation": 0, "position": rect.topleft}
+        placed_tiles[j][i] = {"image": "fond",
+                              "rotation": 0, "position": rect.topleft}
 
 
 def rotate_image(image, angle):
+    """Rotate an image while keeping its center."""
     return pygame.transform.rotate(image, angle)
+
 
 running = True
 while running:
-    screen.fill((0, 0, 0))  
+    screen.fill((0, 0, 0))
 
-    
     for rect_info in rectangles:
         pygame.draw.rect(screen, rect_info["color"], rect_info["rect"])
 
         rotated_image = None
         if rect_info["color"] in color_to_image:
             img_name = color_to_image[rect_info["color"]]
-            rotated_image = rotate_image(images[img_name], rect_info["rotation"])
+            rotated_image = rotate_image(
+                images[img_name], rect_info["rotation"])
 
         if rotated_image:
             img_rect = rotated_image.get_rect(center=rect_info["rect"].center)
             screen.blit(rotated_image, img_rect)
 
-    
     for rect_info in palette:
         pygame.draw.rect(screen, rect_info["color"], rect_info["rect"])
         if rect_info["color"] in color_to_image:
@@ -88,15 +90,12 @@ while running:
             rotated_palette = rotate_image(images[img_name], palette_rotation)
             screen.blit(rotated_palette, rect_info["rect"])
 
-    
     rotate_button = pygame.Rect(25, 250, 25, 25)
     pygame.draw.rect(screen, PINK, rotate_button)
 
-    
     save_button = pygame.Rect(10, WINDOW_SIZE[1] - 50, 75, 25)
     pygame.draw.rect(screen, WHITE, save_button)
 
-    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -106,33 +105,28 @@ while running:
                 if rect_info["rect"].collidepoint(event.pos):
                     select_color = rect_info["color"]
                     if select_color in rotatable_images:
-                        rect_info["rotation"] = palette_rotation  
+                        rect_info["rotation"] = palette_rotation
 
-            
             for idx, rect_info in enumerate(rectangles):
                 if rect_info["rect"].collidepoint(event.pos):
                     rect_info["color"] = select_color
                     rect_info["rotation"] = palette_rotation if select_color in rotatable_images else 0
 
-                    
-                    row = idx // ni  
-                    col = idx % ni  
+                    row = idx // ni
+                    col = idx % ni
 
-                    
                     placed_tiles[row][col] = {
                         "image": color_to_image.get(select_color, "fond"),
                         "rotation": rect_info["rotation"],
                         "position": rect_info["rect"].topleft
                     }
 
-            
             if rotate_button.collidepoint(event.pos):
                 palette_rotation = (palette_rotation + 90) % 360
 
-            
             if save_button.collidepoint(event.pos):
                 img = fusion(512 * ni, 512 * nj)
-                
+
                 for row in placed_tiles:
                     for tile in row:
                         if tile:

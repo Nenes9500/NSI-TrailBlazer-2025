@@ -54,6 +54,7 @@ RED = (200, 0, 0)
 
 
 def draw_needle(angle):
+    """This function draws the speedometer needle."""
     pygame.draw.circle(window, BLACK, CENTER, RADIUS, 3, True, True)
     pygame.draw.line(window, BLACK, (0, 75), (150, 75), 3)
 
@@ -69,6 +70,7 @@ def draw_needle(angle):
 
 
 def paused(pause):
+    """This function pauses the game."""
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
