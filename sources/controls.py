@@ -1,9 +1,4 @@
 import pygame
-from Player import Game
-
-
-pygame.init()
-pygame.joystick.init()
 
 
 class Controls:
@@ -79,3 +74,8 @@ class Controls:
                 self.car.player.brake(0.05)
             elif self.car.player.speed < 0:
                 self.car.player.brake(-0.05)
+
+
+if __name__ == "controls":
+    pygame.init()
+    pygame.joystick.init()
