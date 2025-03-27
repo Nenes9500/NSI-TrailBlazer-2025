@@ -12,6 +12,7 @@ class Minuteur(object):
         self.chrono = [0, 0, 0, 0]
         self.timer = None
         self.savetime = 0
+        self.timere=True
 
     def run(self):
         """
