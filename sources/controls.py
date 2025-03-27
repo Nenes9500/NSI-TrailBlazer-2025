@@ -76,6 +76,6 @@ class Controls:
                 self.car.player.brake(-0.05)
 
 
-if __name__ == "controls":
+if __name__ == "__main__":
     pygame.init()
     pygame.joystick.init()
