@@ -25,14 +25,18 @@ class Fantome(object):
         lst = []
         file = open(fichier, "r")
         enregistrements = file.readlines()
-        for enregistrement in enregistrements:
-            enregistrement = enregistrement.rstrip("\n").split(",")
-            lst.append(enregistrement)
+        for i in range(len(enregistrements)):
+            enregistrement = enregistrements[i].rstrip("\n").split(",")
+            temp = int(enregistrement[0])
+            lst.append([temp])
         return lst
 
-    def save(self, command, name):
-        if self.verif_exits_file(f"{name}.txt") == False:
-            file = open(f'{name}.txt', 'x')
+    def save(self, command, name,Map):
+        newpath = f'Map/{Map}/replay' 
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)
+        if self.verif_exits_file(f"Map/{Map}/replay/{name}.txt") == False:
+            file = open(f'Map/{Map}/replay/{name}.txt', 'x')
             for c in command:
                 for i in c:
                     file.write(f"{i}\n")
