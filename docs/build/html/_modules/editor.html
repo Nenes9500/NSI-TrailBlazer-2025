@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>editor &#8212; TrailBlazer v1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=76e2d817"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for editor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">Fusion</span> <span class="kn">import</span> <span class="n">fusion</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Start">
+<a class="viewcode-back" href="../editor.html#editor.Start">[docs]</a>
+<span class="k">def</span> <span class="nf">Start</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function runs the code of the editor.</span>
+<span class="sd">    It is used to prevent the code to run on import&quot;&quot;&quot;</span>
+    <span class="n">WINDOW_SIZE</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">get_desktop_sizes</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;Pygame Rectangle&quot;</span><span class="p">)</span>
+
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">WHITE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+    <span class="n">RED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+    <span class="n">PINK</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">203</span><span class="p">)</span>
+    <span class="n">VIOLET</span> <span class="o">=</span> <span class="p">(</span><span class="mi">238</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">238</span><span class="p">)</span>
+    <span class="n">GRAY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="c1"># BOX</span>
+    <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="n">font2</span><span class="o">=</span><span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
+    <span class="n">font3</span><span class="o">=</span><span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">text_box</span> <span class="o">=</span> <span class="n">font2</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Name :&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">))</span>
+    <span class="n">input_box</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+    <span class="n">color_active</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;dodgerblue2&#39;</span><span class="p">)</span>
+    <span class="n">color_inactive</span> <span class="o">=</span> <span class="n">GRAY</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">color_inactive</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">Save</span><span class="o">=</span><span class="n">font3</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Save&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">select_color</span> <span class="o">=</span> <span class="n">GREEN</span>
+    <span class="n">palette_rotation</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">rectangles</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="n">palette</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">RED</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">BLUE</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">GREEN</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">WHITE</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">VIOLET</span><span class="p">},</span>
+    <span class="p">]</span>
+
+
+    <span class="n">images</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;route&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/img mini/route droite.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;route_minia&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/route droite.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;tournant&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/img mini/tournant.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;tournant_minia&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/tournant.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;fond&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/img mini/fond.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;fond_minia&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/fond.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;arrivee&quot;</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/img mini/Arrivee.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;arrivee_minia&quot;</span> <span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/Arrivee.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;depart&quot;</span> <span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/img mini/Depart.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span>
+        <span class="s2">&quot;depart_minia&quot;</span> <span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/Depart.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">rotate_img</span><span class="o">=</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;img/palette/rotate.png&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">()</span>
+
+    <span class="n">color_to_image</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">BLUE</span><span class="p">:</span> <span class="s2">&quot;route&quot;</span><span class="p">,</span>
+        <span class="n">RED</span><span class="p">:</span> <span class="s2">&quot;tournant&quot;</span><span class="p">,</span>
+        <span class="n">GREEN</span><span class="p">:</span> <span class="s2">&quot;fond&quot;</span><span class="p">,</span>
+        <span class="n">WHITE</span><span class="p">:</span> <span class="s2">&quot;depart&quot;</span><span class="p">,</span>
+        <span class="n">VIOLET</span><span class="p">:</span> <span class="s2">&quot;arrivee&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+    <span class="n">rotatable_images</span> <span class="o">=</span> <span class="p">{</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span><span class="n">WHITE</span><span class="p">,</span><span class="n">VIOLET</span><span class="p">}</span>
+
+
+    <span class="n">ni</span> <span class="o">=</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">2</span>
+    <span class="n">nj</span> <span class="o">=</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">100</span>
+    <span class="n">placed_tiles</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ni</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nj</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nj</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ni</span><span class="p">):</span>
+            <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">100</span> <span class="o">+</span> <span class="mi">105</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">105</span> <span class="o">*</span> <span class="n">j</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;rect&quot;</span><span class="p">:</span> <span class="n">rect</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">GREEN</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+            <span class="n">placed_tiles</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;fond&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">rect</span><span class="o">.</span><span class="n">topleft</span><span class="p">}</span>
+
+
+    <span class="k">def</span> <span class="nf">rotate_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function rotates the given image.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+
+    <span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">placed_tiles</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;depart&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">rectangles</span><span class="p">[</span><span class="mi">1</span> <span class="o">*</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">topleft</span><span class="p">}</span>
+    <span class="n">placed_tiles</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;arrivee&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">rectangles</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">topleft</span><span class="p">}</span>
+    <span class="n">rectangles</span><span class="p">[</span><span class="mi">1</span> <span class="o">*</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WHITE</span>
+    <span class="n">rectangles</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VIOLET</span>
+    <span class="k">while</span> <span class="n">running</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text_box</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+        
+        <span class="k">for</span> <span class="n">rect_info</span> <span class="ow">in</span> <span class="n">rectangles</span><span class="p">:</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">])</span>
+
+            <span class="n">rotated_image</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">color_to_image</span><span class="p">:</span>
+                <span class="n">img_name</span> <span class="o">=</span> <span class="n">color_to_image</span><span class="p">[</span><span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]]</span>
+                <span class="n">rotated_image</span> <span class="o">=</span> <span class="n">rotate_image</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">img_name</span><span class="p">],</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">rotated_image</span><span class="p">:</span>
+                <span class="n">img_rect</span> <span class="o">=</span> <span class="n">rotated_image</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+                <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">rotated_image</span><span class="p">,</span> <span class="n">img_rect</span><span class="p">)</span>
+
+        
+        <span class="k">for</span> <span class="n">rect_info</span> <span class="ow">in</span> <span class="n">palette</span><span class="p">:</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">color_to_image</span><span class="p">:</span>
+                <span class="n">img_name</span> <span class="o">=</span> <span class="n">color_to_image</span><span class="p">[</span><span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]]</span> <span class="o">+</span> <span class="s2">&quot;_minia&quot;</span>
+                <span class="n">rotated_palette</span> <span class="o">=</span> <span class="n">rotate_image</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">img_name</span><span class="p">],</span> <span class="n">palette_rotation</span><span class="p">)</span>
+                <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">rotated_palette</span><span class="p">,</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">])</span>
+
+        
+        <span class="n">rotate_button</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">PINK</span><span class="p">,</span> <span class="n">rotate_button</span><span class="p">)</span>
+
+        
+        <span class="n">save_button</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">save_button</span><span class="p">)</span>
+
+        
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">active</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_BACKSPACE</span><span class="p">:</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">text</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">unicode</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONDOWN</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">rect_info</span> <span class="ow">in</span> <span class="n">palette</span><span class="p">:</span>
+                
+                    <span class="k">if</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                        <span class="n">select_color</span> <span class="o">=</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">select_color</span> <span class="ow">in</span> <span class="n">rotatable_images</span><span class="p">:</span>
+                            <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">palette_rotation</span>  
+                
+                
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">rect_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rectangles</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">idx</span><span class="o">//</span><span class="n">ni</span><span class="p">,</span> <span class="n">idx</span><span class="o">%</span><span class="n">ni</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]:</span>
+                        <span class="k">continue</span>
+                    <span class="k">elif</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                        <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">select_color</span>
+                        <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">palette_rotation</span> <span class="k">if</span> <span class="n">select_color</span> <span class="ow">in</span> <span class="n">rotatable_images</span> <span class="k">else</span> <span class="mi">0</span>
+
+                        
+                        <span class="n">row</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">//</span> <span class="n">ni</span>  
+                        <span class="n">col</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">%</span> <span class="n">ni</span>  
+
+                        
+                        <span class="n">placed_tiles</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">color_to_image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">select_color</span><span class="p">,</span> <span class="s2">&quot;fond&quot;</span><span class="p">),</span>
+                            <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">],</span>
+                            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">rect_info</span><span class="p">[</span><span class="s2">&quot;rect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">topleft</span>
+                        <span class="p">}</span>
+
+                
+                <span class="k">if</span> <span class="n">rotate_button</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                    <span class="n">palette_rotation</span> <span class="o">=</span> <span class="p">(</span><span class="n">palette_rotation</span> <span class="o">+</span> <span class="mi">90</span><span class="p">)</span> <span class="o">%</span> <span class="mi">360</span>
+
+                <span class="k">if</span> <span class="n">input_box</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                        <span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">active</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">color_active</span> 
+                <span class="k">else</span> <span class="p">:</span> 
+                    <span class="n">color</span> <span class="o">=</span><span class="n">color_inactive</span>
+                
+                
+                <span class="k">if</span> <span class="n">save_button</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Map/</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                        <span class="n">img</span> <span class="o">=</span> <span class="n">fusion</span><span class="p">(</span><span class="mi">512</span> <span class="o">*</span> <span class="n">ni</span><span class="p">,</span> <span class="mi">512</span> <span class="o">*</span> <span class="n">nj</span><span class="p">)</span>
+                        <span class="n">xi</span><span class="o">=</span><span class="mi">0</span>
+                        <span class="n">yj</span><span class="o">=</span><span class="mi">0</span>
+                        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">placed_tiles</span><span class="p">:</span>
+                            <span class="n">xi</span><span class="o">+=</span><span class="mi">1</span>
+                            <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                                <span class="n">yj</span><span class="o">=</span><span class="p">(</span><span class="n">yj</span><span class="o">%</span><span class="mi">20</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+                                <span class="k">if</span> <span class="n">tile</span><span class="p">:</span>
+                                    <span class="n">img</span><span class="o">.</span><span class="n">putpixel</span><span class="p">(</span><span class="n">tile</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">],(</span><span class="n">xi</span><span class="p">,</span><span class="n">yj</span><span class="p">),</span> <span class="n">tile</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">])</span>
+
+                        <span class="n">img</span><span class="o">.</span><span class="n">saver</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+
+        <span class="n">txt_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">txt_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">input_box</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">input_box</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">rotate_img</span><span class="p">,(</span><span class="mi">25</span><span class="p">,</span><span class="mi">310</span><span class="p">))</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">input_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">Save</span><span class="p">,</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">WINDOW_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">50</span><span class="p">))</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+    <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TrailBlazer</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">sources</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Amichi Lounès - Denier Julian.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
