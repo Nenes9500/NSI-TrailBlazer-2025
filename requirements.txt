@@ -2,3 +2,4 @@ pygame
 math
 time
 PIL
+os
