@@ -82,6 +82,7 @@ def Start():
 
 
     def rotate_image(image, angle):
+        """This function rotates the given image."""
         return pygame.transform.rotate(image, angle)
 
     running = True
