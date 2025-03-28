@@ -83,6 +83,10 @@ def Start():
         return pygame.transform.rotate(image, angle)
 
     running = True
+    placed_tiles[1][1] = {"image": "depart", "rotation": 0, "position": rectangles[1 * ni + 1]["rect"].topleft}
+    placed_tiles[2][1] = {"image": "arrivee", "rotation": 0, "position": rectangles[2 * ni + 1]["rect"].topleft}
+    rectangles[1 * ni + 1]["color"] = WHITE
+    rectangles[2 * ni + 1]["color"] = VIOLET
     while running:
         screen.fill((0, 0, 0))  
         screen.blit(text_box, (10, WINDOW_SIZE[1]-100))
@@ -127,6 +131,7 @@ def Start():
                         text += event.unicode
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for rect_info in palette:
+                
                     if rect_info["rect"].collidepoint(event.pos):
                         select_color = rect_info["color"]
                         if select_color in rotatable_images:
@@ -134,7 +139,9 @@ def Start():
                 
                 
                 for idx, rect_info in enumerate(rectangles):
-                    if rect_info["rect"].collidepoint(event.pos):
+                    if (idx//ni, idx%ni) in [(1, 1), (2, 1)]:
+                        continue
+                    elif rect_info["rect"].collidepoint(event.pos):
                         rect_info["color"] = select_color
                         rect_info["rotation"] = palette_rotation if select_color in rotatable_images else 0
 

@@ -37,6 +37,9 @@ class fusion(object):
         """This method is used to save the large image."""
         print(self.posd)
         print(self.posa)
+        newpath = f'Map/{text}/{text}' 
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)
         self.new_img.save(f"Map/{text}/{text}.png")
         file = open(f'Map/{text}/{text}.txt', 'x')
         file.write(f"{self.posd[0]}\n")

@@ -167,15 +167,9 @@ def Start(Map):
             window.blit(text2, (WINDOW_SIZE[0]//2-225, WINDOW_SIZE[1]//2+200))
             pygame.display.update()
             clock.tick(15)
-    def recherche_ligne(Map):
-        with open(f"Map/{Map}/{Map}.txt") as word_file:
-                temp= word_file.read().split("\n")
-                x=int(temp[0])+256
-                y=int(temp[1])+256
                 
         return (x,y)
-    temp=recherche_ligne(Map)
-    car.player.position=(int(temp[0])-WINDOW_SIZE[0]//2, int(temp[1])-WINDOW_SIZE[1]//2)
+    car.player.position=(300, 716)
     car.player.positionBot = car.player.position
     while running:
         if fantome.Play == False:
