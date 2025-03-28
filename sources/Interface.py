@@ -13,6 +13,8 @@ pygame.joystick.init()
 
 
 def Start(Map):
+    """This function runs the code of the editor.
+    It is used to prevent the code to run on import"""
     WINDOW_SIZE = pygame.display.get_desktop_sizes()[0]
     WINDOW_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME  # | pygame.RESIZABLE
 
