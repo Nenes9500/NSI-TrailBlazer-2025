@@ -33,6 +33,9 @@ class fusion(object):
     def saver(self,text):
         print(self.posd)
         print(self.posa)
+        newpath = f'Map/{text}/{text}' 
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)
         self.new_img.save(f"Map/{text}/{text}.png")
         file = open(f'Map/{text}/{text}.txt', 'x')
         file.write(f"{self.posd[0]}\n")
