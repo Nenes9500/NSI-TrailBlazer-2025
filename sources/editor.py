@@ -4,6 +4,8 @@ import os
 pygame.init()
 
 def Start():
+    """This function runs the code of the editor.
+    It is used to prevent the code to run on import"""
     WINDOW_SIZE = pygame.display.get_desktop_sizes()[0]
     screen = pygame.display.set_mode((WINDOW_SIZE[0], WINDOW_SIZE[1]))
     pygame.display.set_caption("Pygame Rectangle")
